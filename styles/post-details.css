@@ -1,0 +1,27 @@
+.headers {
+    font-weight: 700;
+}
+#user-post {
+    text-align: center;
+    font-size: 1.2em;
+    border: 2px solid lightslategray;
+    padding: 20px;
+    background-color: cadetblue;
+    border-radius: 50px;
+}
+#comments {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(200px,1fr));
+    grid-gap: 30px 20px;
+}
+main h2 {
+    text-align: center;
+    font-family: "Yatra One", system-ui;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+@media screen and (max-width: 800px){
+    #comments {
+        grid-template-columns: repeat(auto-fill, minmax(300px,1fr));
+    }
+}
