@@ -1,41 +1,63 @@
 const id = new URLSearchParams(window.location.search).get('id');
-function getPageAboutUser(user) {
-    const div = document.getElementById('info-user');
+
+// recursion
+function getPageAboutUser (user, div){
     const ul = document.createElement('ul');
-    for (const [key, value] of Object.entries(user)) {
+    Object.entries(user).forEach(([key, value]) =>{
         const li = document.createElement('li');
-        if(typeof value === "object"){
-            const ul2 = document.createElement('ul');
-            for (const [key1,value1] of Object.entries(value)) {
-                const li2 = document.createElement('li');
-                if(typeof value1 === "object"){
-                    const ul3 = document.createElement('ul');
-                    for (const [key2, value2] of Object.entries(value1)) {
-                        const li3 = document.createElement('li');
-                        li3.innerHTML = `<strong>${key2.toUpperCase()}</strong>: ${value2}`
-                        ul3.appendChild(li3);
-                    }
-                    li2.innerHTML = `<strong>${key1.toUpperCase()}</strong>`;
-                    li2.appendChild(ul3);
-                } else {
-                    li2.innerHTML = `<strong>${key1.toUpperCase()}</strong>:  ${value1}`
-                }
-                ul2.appendChild(li2);
-            }
-            li.innerHTML = `<strong>${key.toUpperCase()}</strong>`;
-            li.appendChild(ul2);
-        } else {
-            li.innerHTML = `<strong>${key.toUpperCase()}</strong>:  ${value}`
+        if( typeof value === "object"){
+            console.log(key);
+            li.innerHTML = `<strong>${key.toUpperCase()}</strong>`
+            ul.appendChild(li);
+            getArray(value, ul );
+        }else {
+            const li = document.createElement('li');
+            console.log(key, value);
+            li.innerHTML = `<strong>${key.toUpperCase()}</strong>: ${value}`
+            ul.appendChild(li);
         }
-        ul.appendChild(li);
-    }
+    });
     div.appendChild(ul);
 }
+
+// function getPageAboutUser(user) {
+//     const div = document.getElementById('info-user');
+//     const ul = document.createElement('ul');
+//     for (const [key, value] of Object.entries(user)) {
+//         const li = document.createElement('li');
+//         if(typeof value === "object"){
+//             const ul2 = document.createElement('ul');
+//             for (const [key1,value1] of Object.entries(value)) {
+//                 const li2 = document.createElement('li');
+//                 if(typeof value1 === "object"){
+//                     const ul3 = document.createElement('ul');
+//                     for (const [key2, value2] of Object.entries(value1)) {
+//                         const li3 = document.createElement('li');
+//                         li3.innerHTML = `<strong>${key2.toUpperCase()}</strong>: ${value2}`
+//                         ul3.appendChild(li3);
+//                     }
+//                     li2.innerHTML = `<strong>${key1.toUpperCase()}</strong>`;
+//                     li2.appendChild(ul3);
+//                 } else {
+//                     li2.innerHTML = `<strong>${key1.toUpperCase()}</strong>:  ${value1}`
+//                 }
+//                 ul2.appendChild(li2);
+//             }
+//             li.innerHTML = `<strong>${key.toUpperCase()}</strong>`;
+//             li.appendChild(ul2);
+//         } else {
+//             li.innerHTML = `<strong>${key.toUpperCase()}</strong>:  ${value}`
+//         }
+//         ul.appendChild(li);
+//     }
+//     div.appendChild(ul);
+// }
 
 fetch('https://jsonplaceholder.typicode.com/users/')
     .then(res => res.json())
     .then(user => {
-        getPageAboutUser(user[id - 1]);
+        const div = document.getElementById('info-user');
+        getPageAboutUser(user[id-1], div);
 });
 
 fetch(`https://jsonplaceholder.typicode.com/users/${id}/posts?limit=posts.length`)
