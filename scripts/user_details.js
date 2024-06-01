@@ -6,13 +6,11 @@ function getPageAboutUser (user, div){
     Object.entries(user).forEach(([key, value]) =>{
         const li = document.createElement('li');
         if( typeof value === "object"){
-            console.log(key);
             li.innerHTML = `<strong>${key.toUpperCase()}</strong>`
             ul.appendChild(li);
-            getArray(value, ul );
+            getPageAboutUser(value, ul );
         }else {
             const li = document.createElement('li');
-            console.log(key, value);
             li.innerHTML = `<strong>${key.toUpperCase()}</strong>: ${value}`
             ul.appendChild(li);
         }
